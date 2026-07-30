@@ -72,10 +72,13 @@ strong { font-weight: 600; }
   margin-bottom: 3rem;
 }
 
+/* 竖版 3:4 肖像。想换形状只改 border-radius:
+   50% = 圆形（需要把 height 改回 140px，否则是椭圆）
+   10px = 圆角方形 / 0 = 直角 */
 .avatar {
   width: 140px;
-  height: 140px;
-  border-radius: 50%;
+  height: 186px;
+  border-radius: 4px;
   object-fit: cover;
   flex: none;
   background: var(--accent-bg);
@@ -238,7 +241,7 @@ footer p { margin: 0 0 .3rem; }
     gap: 1.2rem;
     margin-bottom: 2.25rem;
   }
-  .avatar { width: 108px; height: 108px; }
+  .avatar { width: 116px; height: 154px; }
   h1 { font-size: 1.7rem; }
 
   .news-list li { flex-direction: column; gap: .1rem; }
