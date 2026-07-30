@@ -1,0 +1,255 @@
+/* ------------------------------------------------------------------
+   Yajie Wang - personal homepage
+   Single stylesheet, no build step, no dependencies.
+   Tweak the variables below to restyle the whole page.
+   ------------------------------------------------------------------ */
+
+:root {
+  --bg:        #ffffff;
+  --fg:        #1c1e21;
+  --muted:     #6b7280;
+  --faint:     #9aa1ab;
+  --rule:      #e6e8eb;
+  --accent:    #2a4d8f;
+  --accent-bg: #f3f6fb;
+
+  --measure:   44rem;   /* content width */
+  --font: -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue",
+          Arial, "Noto Sans", "PingFang SC", "Microsoft YaHei", sans-serif;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg:        #101317;
+    --fg:        #e4e7ea;
+    --muted:     #98a1ac;
+    --faint:     #6f7883;
+    --rule:      #262b31;
+    --accent:    #8db2f0;
+    --accent-bg: #171d26;
+  }
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font);
+  font-size: 16.5px;
+  line-height: 1.68;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+main {
+  max-width: var(--measure);
+  margin: 0 auto;
+  padding: 4.5rem 1.5rem 5rem;
+}
+
+a {
+  color: var(--accent);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: border-color .15s ease;
+}
+a:hover { border-bottom-color: currentColor; }
+
+p { margin: 0 0 1.05rem; }
+
+strong { font-weight: 600; }
+
+/* ---------------- header ---------------- */
+
+.intro {
+  display: flex;
+  gap: 2rem;
+  align-items: flex-start;
+  margin-bottom: 3rem;
+}
+
+.avatar {
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex: none;
+  background: var(--accent-bg);
+}
+
+.intro-text { min-width: 0; }
+
+h1 {
+  margin: 0 0 .2rem;
+  font-size: 2rem;
+  font-weight: 650;
+  letter-spacing: -.02em;
+  line-height: 1.2;
+}
+
+.role {
+  margin: 0 0 .55rem;
+  font-size: 1rem;
+  font-weight: 550;
+  color: var(--fg);
+}
+
+.affil {
+  margin: 0 0 1rem;
+  font-size: .9rem;
+  line-height: 1.55;
+  color: var(--muted);
+}
+.affil a { color: var(--muted); border-bottom: 1px solid var(--rule); }
+.affil a:hover { color: var(--accent); }
+
+/* link row */
+.links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .4rem;
+}
+.links a {
+  display: inline-block;
+  padding: .18rem .6rem;
+  font-size: .8rem;
+  font-weight: 500;
+  letter-spacing: .01em;
+  color: var(--muted);
+  background: var(--accent-bg);
+  border: 1px solid var(--rule);
+  border-radius: 999px;
+}
+.links a:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
+/* ---------------- sections ---------------- */
+
+section { margin-bottom: 3rem; }
+
+h2 {
+  margin: 0 0 1.1rem;
+  padding-bottom: .4rem;
+  border-bottom: 1px solid var(--rule);
+  font-size: .78rem;
+  font-weight: 650;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+h3 {
+  margin: 1.8rem 0 .7rem;
+  font-size: .95rem;
+  font-weight: 620;
+  color: var(--fg);
+}
+h3:first-of-type { margin-top: 0; }
+
+.lede {
+  font-size: 1.1rem;
+  line-height: 1.6;
+}
+
+.quiet {
+  font-size: .87rem;
+  color: var(--muted);
+}
+
+/* ---------------- news ---------------- */
+
+.news-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  font-size: .93rem;
+}
+.news-list li {
+  display: flex;
+  gap: 1rem;
+  padding: .5rem 0;
+  border-bottom: 1px dashed var(--rule);
+}
+.news-list li:last-child { border-bottom: 0; }
+
+.date {
+  flex: none;
+  width: 5.4rem;
+  color: var(--faint);
+  font-variant-numeric: tabular-nums;
+  font-size: .85rem;
+  padding-top: .1rem;
+}
+
+/* ---------------- publications ---------------- */
+
+.pubs {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  counter-reset: none;
+}
+.pubs li {
+  margin-bottom: 1.15rem;
+  padding-left: 1rem;
+  border-left: 2px solid var(--rule);
+  font-size: .93rem;
+  line-height: 1.55;
+}
+.pubs li:hover { border-left-color: var(--accent); }
+
+.pubs .title,
+.pubs .authors,
+.pubs .venue,
+.pubs .meta { display: block; }
+
+.pubs .title  { font-weight: 550; color: var(--fg); margin-bottom: .12rem; }
+.pubs .authors{ color: var(--muted); font-size: .88rem; }
+.pubs .venue  { color: var(--muted); font-size: .88rem; }
+.pubs .meta   { margin-top: .2rem; font-size: .82rem; }
+.pubs .meta a { color: var(--accent); }
+
+/* ---------------- footer ---------------- */
+
+footer {
+  margin-top: 4rem;
+  padding-top: 1.2rem;
+  border-top: 1px solid var(--rule);
+  font-size: .87rem;
+  color: var(--muted);
+}
+footer a { color: var(--muted); }
+footer a:hover { color: var(--accent); }
+footer p { margin: 0 0 .3rem; }
+
+/* ---------------- small screens ---------------- */
+
+@media (max-width: 34rem) {
+  main { padding: 2.5rem 1.15rem 3.5rem; }
+
+  .intro {
+    flex-direction: column;
+    gap: 1.2rem;
+    margin-bottom: 2.25rem;
+  }
+  .avatar { width: 108px; height: 108px; }
+  h1 { font-size: 1.7rem; }
+
+  .news-list li { flex-direction: column; gap: .1rem; }
+  .date { width: auto; }
+}
+
+/* ---------------- print (so Ctrl+P gives a usable one-pager) ---------------- */
+
+@media print {
+  :root { --bg: #fff; --fg: #000; --muted: #444; --rule: #ccc; --accent: #000; }
+  main { max-width: none; padding: 0; }
+  .links { display: none; }
+  a { border-bottom: 0; }
+}
