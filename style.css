@@ -6,14 +6,25 @@
 
 :root {
   --bg:        #ffffff;
-  --bg-soft:   #fafbfc;
-  --fg:        #1c1e21;
-  --muted:     #6b7280;
-  --faint:     #9aa1ab;
-  --rule:      #e6e8eb;
+  --bg-soft:   #f8fafc;
+  --fg:        #171a1f;
+  --muted:     #5c6572;
+  --faint:     #6b7484;   /* 4.7:1 on white - 二级说明文字也要过 WCAG AA */
+  --rule:      #e4e8ee;
   --accent:    #2a4d8f;
-  --accent-bg: #f3f6fb;
+  --accent-bg: #eef3fb;
+  --accent-br: #cfdcf1;
+  --hl:        #ffe9a8;   /* lede 里高亮短语的底色 */
   --nav-bg:    rgba(255, 255, 255, .88);
+
+  /* 主题色板：每个色相三个值 = 文字 / 底色 / 边框。
+     标签、徽章、卡片、分节标记都从这里取色，改一处就能全站换色。 */
+  --h-violet-fg: #5b21b6; --h-violet-bg: #f4edfe; --h-violet-br: #dfd2f8;
+  --h-teal-fg:   #0f6f68; --h-teal-bg:   #e6f6f4; --h-teal-br:   #c5e8e3;
+  --h-amber-fg:  #8a5a0b; --h-amber-bg:  #fdf3e0; --h-amber-br:  #f2ddb6;
+  --h-blue-fg:   #1d4ed8; --h-blue-bg:   #e9eefc; --h-blue-br:   #ccd9fa;
+  --h-rose-fg:   #a01f55; --h-rose-bg:   #fdebf2; --h-rose-br:   #f6cdda;
+  --h-green-fg:  #276b2f; --h-green-bg:  #eaf6ea; --h-green-br:  #cbe7cc;
 
   /* 页面框架宽度。三档跟参考站一致：750 / 970 / 1170px，见下面的媒体查询。 */
   --measure:   750px;
@@ -30,11 +41,21 @@
     --bg-soft:   #151a20;
     --fg:        #e4e7ea;
     --muted:     #98a1ac;
-    --faint:     #6f7883;
+    --faint:     #7d8794;   /* 5.1:1 on the dark background */
     --rule:      #262b31;
     --accent:    #8db2f0;
-    --accent-bg: #171d26;
+    --accent-bg: #172030;
+    --accent-br: #26364f;
+    --hl:        rgba(255, 214, 102, .26);
     --nav-bg:    rgba(16, 19, 23, .88);
+
+    /* 暗色下底色用半透明，避免在深背景上出现死板的色块 */
+    --h-violet-fg: #c9b4fb; --h-violet-bg: rgba(139, 92, 246, .14); --h-violet-br: rgba(139, 92, 246, .32);
+    --h-teal-fg:   #78d9cd; --h-teal-bg:   rgba(20, 184, 166, .13); --h-teal-br:   rgba(20, 184, 166, .30);
+    --h-amber-fg:  #e8c483; --h-amber-bg:  rgba(217, 164, 65, .13); --h-amber-br:  rgba(217, 164, 65, .30);
+    --h-blue-fg:   #9dbcf5; --h-blue-bg:   rgba(59, 130, 246, .14); --h-blue-br:   rgba(59, 130, 246, .32);
+    --h-rose-fg:   #f2a4c0; --h-rose-bg:   rgba(236, 72, 153, .13); --h-rose-br:   rgba(236, 72, 153, .30);
+    --h-green-fg:  #92d69a; --h-green-bg:  rgba(52, 168, 83, .13);  --h-green-br:  rgba(52, 168, 83, .30);
   }
 }
 
@@ -190,8 +211,8 @@ h1 {
 .role {
   margin: 0 0 .55rem;
   font-size: .97rem;
-  font-weight: 550;
-  color: var(--fg);
+  font-weight: 600;
+  color: var(--accent);
 }
 
 .affil {
@@ -225,10 +246,13 @@ h1 {
   color: var(--accent);
   border-color: var(--accent);
 }
+/* CV 用实心块，让链接行有一个明确的落点 */
 .links a.cv {
-  color: var(--accent);
+  color: var(--bg);
+  background: var(--accent);
   border-color: var(--accent);
 }
+.links a.cv:hover { color: var(--bg); opacity: .85; }
 
 /* ---------------- sections ---------------- */
 
@@ -237,15 +261,38 @@ section {
   scroll-margin-top: calc(var(--nav-h) + 1rem);
 }
 
+/* 每个分节一个强调色。--sec 会被该节内的标题标记、日期、
+   时间线圆点继承，所以整节的点缀色是统一的。 */
+#about        { --sec: var(--h-violet-fg); }
+#news         { --sec: var(--h-amber-fg); }
+#publications { --sec: var(--h-blue-fg); }
+#talks        { --sec: var(--h-rose-fg); }
+#background   { --sec: var(--h-teal-fg); }
+#teaching     { --sec: var(--h-green-fg); }
+#service      { --sec: var(--h-violet-fg); }
+
+/* 分节标题下压一小段彩色标记，每节一个色相，
+   颜色由 --sec 决定，见文件末尾的 per-section 赋值。 */
 h2 {
-  margin: 0 0 1.1rem;
-  padding-bottom: .4rem;
+  position: relative;
+  margin: 0 0 1.25rem;
+  padding-bottom: .45rem;
   border-bottom: 1px solid var(--rule);
   font-size: .78rem;
   font-weight: 650;
   letter-spacing: .1em;
   text-transform: uppercase;
-  color: var(--muted);
+  color: var(--fg);
+}
+h2::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -1px;
+  width: 2.6rem;
+  height: 2px;
+  border-radius: 1px;
+  background: var(--sec, var(--accent));
 }
 
 h3 {
@@ -260,6 +307,11 @@ h3:first-of-type { margin-top: 0; }
   font-size: 1.1rem;
   line-height: 1.6;
   max-width: var(--prose);
+}
+/* 关键短语用底色高亮，参考站也是这个做法 */
+.lede strong {
+  font-weight: 620;
+  background: linear-gradient(transparent 62%, var(--hl) 62%);
 }
 
 /* 跑文字的段落一律限宽，避免宽屏下出现超长行 */
@@ -282,8 +334,8 @@ h3:first-of-type { margin-top: 0; }
 
 .aside {
   padding: 1rem 1.15rem 1.1rem;
-  background: var(--bg-soft);
-  border: 1px solid var(--rule);
+  background: var(--accent-bg);
+  border: 1px solid var(--accent-br);
   border-radius: 8px;
 }
 .aside h3 {
@@ -292,7 +344,7 @@ h3:first-of-type { margin-top: 0; }
   font-weight: 650;
   letter-spacing: .08em;
   text-transform: uppercase;
-  color: var(--faint);
+  color: var(--sec, var(--accent));
 }
 .aside h3:first-child { margin-top: 0; }
 .aside p { margin: 0; }
@@ -319,22 +371,31 @@ h3:first-of-type { margin-top: 0; }
   margin: 1.6rem 0 1.4rem;
 }
 
+/* 每张卡一个色相，由 --cd 决定（见 .c-* 修饰类） */
 .card {
-  padding: .9rem 1rem 1rem;
+  padding: .85rem 1rem 1rem;
   background: var(--bg-soft);
   border: 1px solid var(--rule);
+  border-top: 3px solid var(--cd, var(--accent));
   border-radius: 8px;
-  transition: border-color .15s ease;
+  transition: border-color .15s ease, background .15s ease;
 }
-.card:hover { border-color: var(--accent); }
+.card:hover {
+  border-color: var(--cd, var(--accent));
+  background: var(--bg);
+}
 
 .card h3 {
   margin: 0 0 .35rem;
   font-size: .87rem;
   font-weight: 640;
   line-height: 1.35;
-  color: var(--accent);
+  color: var(--cd, var(--accent));
 }
+
+.c-violet { --cd: var(--h-violet-fg); }
+.c-amber  { --cd: var(--h-amber-fg); }
+.c-teal   { --cd: var(--h-teal-fg); }
 .card p {
   margin: 0;
   font-size: .83rem;
@@ -362,10 +423,11 @@ h3:first-of-type { margin-top: 0; }
 .date {
   flex: none;
   width: 5.4rem;
-  color: var(--faint);
+  color: var(--sec, var(--accent));
+  font-weight: 600;
   font-variant-numeric: tabular-nums;
-  font-size: .85rem;
-  padding-top: .1rem;
+  font-size: .82rem;
+  padding-top: .13rem;
 }
 
 /* ---------------- tags ---------------- */
@@ -375,25 +437,34 @@ h3:first-of-type { margin-top: 0; }
   margin-bottom: .3rem;
 }
 
+/* 标签按主题上色，色相由 .t-* 修饰类注入 --tg-* */
 .tag {
   display: inline-block;
   margin: 0 .3rem .2rem 0;
-  padding: .04rem .42rem;
+  padding: .04rem .45rem;
   font-size: .72rem;
-  font-weight: 550;
+  font-weight: 600;
   letter-spacing: .01em;
-  color: var(--muted);
-  background: var(--accent-bg);
-  border: 1px solid var(--rule);
+  color: var(--tg-fg, var(--muted));
+  background: var(--tg-bg, var(--accent-bg));
+  border: 1px solid var(--tg-br, var(--rule));
   border-radius: 4px;
 }
+
+.t-violet { --tg-fg: var(--h-violet-fg); --tg-bg: var(--h-violet-bg); --tg-br: var(--h-violet-br); }
+.t-teal   { --tg-fg: var(--h-teal-fg);   --tg-bg: var(--h-teal-bg);   --tg-br: var(--h-teal-br); }
+.t-amber  { --tg-fg: var(--h-amber-fg);  --tg-bg: var(--h-amber-bg);  --tg-br: var(--h-amber-br); }
+.t-blue   { --tg-fg: var(--h-blue-fg);   --tg-bg: var(--h-blue-bg);   --tg-br: var(--h-blue-br); }
+.t-rose   { --tg-fg: var(--h-rose-fg);   --tg-bg: var(--h-rose-bg);   --tg-br: var(--h-rose-br); }
+.t-green  { --tg-fg: var(--h-green-fg);  --tg-bg: var(--h-green-bg);  --tg-br: var(--h-green-br); }
 
 .tag-soon {
   flex: none;
   align-self: flex-start;
   margin: .18rem 0 0;
-  color: var(--accent);
-  border-color: var(--accent);
+  color: var(--sec, var(--accent));
+  border-color: currentColor;
+  background: transparent;
 }
 
 /* ---------------- publications ---------------- */
@@ -410,12 +481,17 @@ h3:first-of-type { margin-top: 0; }
   gap: 0 1.3rem;
   margin-bottom: 1.35rem;
   padding-left: 1rem;
-  border-left: 2px solid var(--rule);
+  border-left: 2px solid var(--grp-br, var(--rule));
   font-size: .93rem;
   line-height: 1.55;
   transition: border-color .15s ease;
 }
-.pubs li:hover { border-left-color: var(--accent); }
+.pubs li:hover { border-left-color: var(--grp, var(--accent)); }
+
+/* 三类论文各用一个色相：在投琥珀 / 期刊蓝 / 会议青 */
+.p-prep    { --grp: var(--h-amber-fg); --grp-br: var(--h-amber-br); }
+.p-journal { --grp: var(--h-blue-fg);  --grp-br: var(--h-blue-br); }
+.p-conf    { --grp: var(--h-teal-fg);  --grp-br: var(--h-teal-br); }
 
 .pub-rail { min-width: 0; padding-top: .15rem; }
 
@@ -425,7 +501,7 @@ h3:first-of-type { margin-top: 0; }
   font-weight: 650;
   letter-spacing: -.01em;
   font-variant-numeric: tabular-nums;
-  color: var(--fg);
+  color: var(--grp, var(--accent));
 }
 .pub-venue-short {
   display: block;
@@ -446,6 +522,7 @@ h3:first-of-type { margin-top: 0; }
 .pubs .venue  { color: var(--muted); font-size: .88rem; }
 .pubs .meta   { margin-top: .35rem; }
 
+/* 链接徽章按类型上色：DOI 蓝 / Proceedings 青 / PDF 红 */
 .badge {
   display: inline-block;
   margin: 0 .3rem .25rem 0;
@@ -454,15 +531,15 @@ h3:first-of-type { margin-top: 0; }
   font-weight: 600;
   letter-spacing: .02em;
   border-radius: 4px;
-  border: 1px solid var(--rule);
-  color: var(--muted);
-  background: var(--bg-soft);
+  border: 1px solid var(--bd-br, var(--rule));
+  color: var(--bd-fg, var(--muted));
+  background: var(--bd-bg, var(--bg-soft));
 }
-.badge:hover { color: var(--accent); border-color: var(--accent); }
+.badge:hover { border-color: currentColor; }
 
-.badge-doi  { color: var(--accent); background: var(--accent-bg); }
-.badge-proc { color: var(--accent); background: var(--accent-bg); }
-.badge-pdf  { color: var(--muted);  background: var(--bg-soft); }
+.badge-doi  { --bd-fg: var(--h-blue-fg); --bd-bg: var(--h-blue-bg); --bd-br: var(--h-blue-br); }
+.badge-proc { --bd-fg: var(--h-teal-fg); --bd-bg: var(--h-teal-bg); --bd-br: var(--h-teal-br); }
+.badge-pdf  { --bd-fg: var(--h-rose-fg); --bd-bg: var(--h-rose-bg); --bd-br: var(--h-rose-br); }
 
 /* ---------------- two-column blocks ---------------- */
 
@@ -497,16 +574,21 @@ h3:first-of-type { margin-top: 0; }
   height: .5rem;
   border-radius: 50%;
   background: var(--bg);
-  border: 2px solid var(--rule);
+  border: 2px solid var(--sec, var(--accent));
+  opacity: .45;
 }
-.timeline li:first-child::before { border-color: var(--accent); background: var(--accent); }
+.timeline li:first-child::before {
+  background: var(--sec, var(--accent));
+  opacity: 1;
+}
 
 .tl-when {
   display: block;
   font-size: .78rem;
+  font-weight: 600;
   font-variant-numeric: tabular-nums;
   letter-spacing: .02em;
-  color: var(--faint);
+  color: var(--sec, var(--accent));
 }
 .tl-what {
   display: block;
@@ -617,9 +699,19 @@ footer p { margin: 0 0 .3rem; }
 /* ---------------- print (so Ctrl+P gives a usable one-pager) ---------------- */
 
 @media print {
+  /* 打印时把整套色板压成灰阶。所有组件都从变量取色，
+     所以这里重定义变量就够了，不需要逐条 !important。 */
   :root {
     --bg: #fff; --bg-soft: #fff; --fg: #000; --muted: #444; --rule: #ccc; --accent: #000;
+    --accent-bg: #fff; --accent-br: #bbb; --hl: transparent;
     --prose: none;   /* 打印时不限行长，纸面宽度本来就够窄 */
+
+    --h-violet-fg: #000; --h-violet-bg: #fff; --h-violet-br: #bbb;
+    --h-teal-fg:   #000; --h-teal-bg:   #fff; --h-teal-br:   #bbb;
+    --h-amber-fg:  #000; --h-amber-bg:  #fff; --h-amber-br:  #bbb;
+    --h-blue-fg:   #000; --h-blue-bg:   #fff; --h-blue-br:   #bbb;
+    --h-rose-fg:   #000; --h-rose-bg:   #fff; --h-rose-br:   #bbb;
+    --h-green-fg:  #000; --h-green-bg:  #fff; --h-green-br:  #bbb;
   }
   html { scroll-padding-top: 0; }
   main { max-width: none; padding: 0; }
