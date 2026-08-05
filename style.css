@@ -15,7 +15,10 @@
   --accent-bg: #f3f6fb;
   --nav-bg:    rgba(255, 255, 255, .88);
 
-  --measure:   47rem;   /* content width */
+  /* 页面框架宽度。三档跟参考站一致：750 / 970 / 1170px，见下面的媒体查询。 */
+  --measure:   750px;
+  /* 正文最大行长。框架再宽，跑文字的栏也不超过这个值，否则一行 140 字符没法读。 */
+  --prose:     46rem;
   --nav-h:     3.1rem;  /* height of the sticky bar */
   --font: -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue",
           Arial, "Noto Sans", "PingFang SC", "Microsoft YaHei", sans-serif;
@@ -34,6 +37,10 @@
     --nav-bg:    rgba(16, 19, 23, .88);
   }
 }
+
+/* 页面框架在这三档变宽，断点与参考站（Bootstrap 3 container）相同。 */
+@media (min-width:  992px) { :root { --measure:  970px; } }
+@media (min-width: 1200px) { :root { --measure: 1170px; } }
 
 *, *::before, *::after { box-sizing: border-box; }
 
@@ -145,26 +152,32 @@ strong { font-weight: 600; }
 
 /* ---------------- header ---------------- */
 
+/* 左栏照片 + 社交链接，右栏姓名与简介。右栏受 --prose 限制，
+   所以页面拉宽到 1170px 后正文每行仍然是可读长度。 */
 .intro {
-  display: flex;
-  gap: 2rem;
-  align-items: flex-start;
+  display: grid;
+  grid-template-columns: minmax(0, 230px) minmax(0, 1fr);
+  gap: 2.5rem;
+  align-items: start;
   margin-bottom: 3.25rem;
 }
 
+.intro-side { min-width: 0; }
+.intro-main { min-width: 0; max-width: var(--prose); }
+
 /* 竖版 3:4 肖像。想换形状只改 border-radius:
-   50% = 圆形（需要把 height 改回 140px，否则是椭圆）
+   50% = 圆形（需要把 height 改成跟 width 一样，否则是椭圆）
    10px = 圆角方形 / 0 = 直角 */
 .avatar {
-  width: 140px;
-  height: 186px;
+  display: block;
+  width: 100%;
+  max-width: 230px;
+  aspect-ratio: 3 / 4;
+  height: auto;
   border-radius: 6px;
   object-fit: cover;
-  flex: none;
   background: var(--accent-bg);
 }
-
-.intro-text { min-width: 0; }
 
 h1 {
   margin: 0 0 .2rem;
@@ -195,6 +208,7 @@ h1 {
   display: flex;
   flex-wrap: wrap;
   gap: .4rem;
+  margin-top: .95rem;
 }
 .links a {
   display: inline-block;
@@ -245,12 +259,45 @@ h3:first-of-type { margin-top: 0; }
 .lede {
   font-size: 1.1rem;
   line-height: 1.6;
+  max-width: var(--prose);
 }
+
+/* 跑文字的段落一律限宽，避免宽屏下出现超长行 */
+.prose { max-width: var(--prose); }
 
 .quiet {
   font-size: .87rem;
   color: var(--muted);
 }
+
+/* ---------------- prose + aside ---------------- */
+
+.with-aside {
+  display: grid;
+  grid-template-columns: minmax(0, var(--prose)) minmax(0, 1fr);
+  gap: 1.5rem 2.5rem;
+  align-items: start;
+}
+.with-aside .col { min-width: 0; }
+
+.aside {
+  padding: 1rem 1.15rem 1.1rem;
+  background: var(--bg-soft);
+  border: 1px solid var(--rule);
+  border-radius: 8px;
+}
+.aside h3 {
+  margin: 1rem 0 .3rem;
+  font-size: .72rem;
+  font-weight: 650;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--faint);
+}
+.aside h3:first-child { margin-top: 0; }
+.aside p { margin: 0; }
+.aside .tags { margin-bottom: .55rem; }
+.aside .quiet { font-size: .83rem; line-height: 1.5; }
 
 .section-note { margin-top: -.5rem; }
 
@@ -306,6 +353,7 @@ h3:first-of-type { margin-top: 0; }
 .news-list li {
   display: flex;
   gap: 1rem;
+  max-width: 58rem;
   padding: .5rem 0;
   border-bottom: 1px dashed var(--rule);
 }
@@ -355,7 +403,11 @@ h3:first-of-type { margin-top: 0; }
   margin: 0;
   padding: 0;
 }
+/* 左边年份/出处导轨，右边正文，对应参考站的「缩略图 | 文字」两栏 */
 .pubs li {
+  display: grid;
+  grid-template-columns: 8.5rem minmax(0, 1fr);
+  gap: 0 1.3rem;
   margin-bottom: 1.35rem;
   padding-left: 1rem;
   border-left: 2px solid var(--rule);
@@ -364,6 +416,25 @@ h3:first-of-type { margin-top: 0; }
   transition: border-color .15s ease;
 }
 .pubs li:hover { border-left-color: var(--accent); }
+
+.pub-rail { min-width: 0; padding-top: .15rem; }
+
+.pub-year {
+  display: block;
+  font-size: .95rem;
+  font-weight: 650;
+  letter-spacing: -.01em;
+  font-variant-numeric: tabular-nums;
+  color: var(--fg);
+}
+.pub-venue-short {
+  display: block;
+  font-size: .78rem;
+  line-height: 1.35;
+  color: var(--faint);
+}
+
+.pub-body { min-width: 0; max-width: var(--prose); }
 
 .pubs .title,
 .pubs .authors,
@@ -500,8 +571,25 @@ footer p { margin: 0 0 .3rem; }
 
 /* ---------------- medium screens ---------------- */
 
+/* 框架回到 750px 档时侧栏挤不下，改为堆叠 */
+@media (max-width: 62rem) {
+  .with-aside { grid-template-columns: 1fr; }
+}
+
 @media (max-width: 46rem) {
   .cards { grid-template-columns: 1fr; }
+
+  .intro { grid-template-columns: 1fr; gap: 1.4rem; }
+  .avatar { max-width: 180px; }
+
+  .pubs li { grid-template-columns: 1fr; gap: .25rem 0; }
+  .pub-rail {
+    display: flex;
+    align-items: baseline;
+    gap: .5rem;
+    padding-top: 0;
+  }
+  .pub-year { font-size: .85rem; }
 }
 
 /* ---------------- small screens ---------------- */
@@ -513,12 +601,8 @@ footer p { margin: 0 0 .3rem; }
   .brand { font-size: .85rem; }
   .navlinks a { padding: .25rem .4rem; font-size: .76rem; }
 
-  .intro {
-    flex-direction: column;
-    gap: 1.2rem;
-    margin-bottom: 2.25rem;
-  }
-  .avatar { width: 116px; height: 154px; }
+  .intro { margin-bottom: 2.25rem; }
+  .avatar { max-width: 140px; }
   h1 { font-size: 1.7rem; }
 
   .news-list li { flex-direction: column; gap: .1rem; }
@@ -533,9 +617,13 @@ footer p { margin: 0 0 .3rem; }
 /* ---------------- print (so Ctrl+P gives a usable one-pager) ---------------- */
 
 @media print {
-  :root { --bg: #fff; --bg-soft: #fff; --fg: #000; --muted: #444; --rule: #ccc; --accent: #000; }
+  :root {
+    --bg: #fff; --bg-soft: #fff; --fg: #000; --muted: #444; --rule: #ccc; --accent: #000;
+    --prose: none;   /* 打印时不限行长，纸面宽度本来就够窄 */
+  }
   html { scroll-padding-top: 0; }
   main { max-width: none; padding: 0; }
+  .news-list li { max-width: none; }
   .topbar, .links, .to-top { display: none; }
   a { border-bottom: 0; }
   .cards { grid-template-columns: repeat(3, 1fr); }

@@ -19,7 +19,7 @@
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#128218;</text></svg>">
 <!-- ?v= 是缓存版本号。GitHub Pages 给静态资源设了 10 分钟缓存，
      改完 CSS 后把这里的数字 +1，浏览器就会立刻取新版，不用强制刷新。 -->
-<link rel="stylesheet" href="style.css?v=3">
+<link rel="stylesheet" href="style.css?v=4">
 </head>
 <body id="top">
 
@@ -43,16 +43,11 @@
 <main>
 
   <!-- ===================== HEADER ===================== -->
+  <!-- 两栏：左边照片 + 社交链接（约 1/3），右边姓名与简介（约 2/3）。
+       正文栏宽度受右栏限制，所以页面拉宽后每行仍然是可读长度。 -->
   <header class="intro">
-    <img class="avatar" src="img/avatar.jpg" alt="Portrait of Yajie Wang" width="140" height="186">
-    <div class="intro-text">
-      <h1>Yajie Wang</h1>
-      <p class="role">Postdoctoral Research Fellow &middot; Computational Social Scientist</p>
-      <p class="affil">
-        <a href="https://centerforcollectivelearning.org/">Center for Collective Learning</a><br>
-        Corvinus Institute for Advanced Studies<br>
-        Corvinus University of Budapest
-      </p>
+    <div class="intro-side">
+      <img class="avatar" src="img/avatar.jpg" alt="Portrait of Yajie Wang" width="230" height="306">
       <nav class="links" aria-label="Profiles and contact">
         <a href="mailto:yajiewang998@gmail.com">Email</a>
         <a href="https://scholar.google.com/citations?user=4ecI6C8AAAAJ">Scholar</a>
@@ -64,30 +59,60 @@
         <a class="cv" href="CV_Yajie_Wang.pdf">CV (PDF)</a>
       </nav>
     </div>
+    <div class="intro-main">
+      <h1>Yajie Wang</h1>
+      <p class="role">Postdoctoral Research Fellow &middot; Computational Social Scientist</p>
+      <p class="affil">
+        <a href="https://centerforcollectivelearning.org/">Center for Collective Learning</a><br>
+        Corvinus Institute for Advanced Studies<br>
+        Corvinus University of Budapest
+      </p>
+      <p class="lede">
+        I am a computational social scientist working at the intersection of
+        <strong>large-scale social media data</strong> and <strong>large language models</strong>.
+      </p>
+      <p class="prose">
+        I combine behavioral data from X (Twitter) and Bluesky with bibliometric, citation, and
+        altmetric databases to study how knowledge is produced, how it spreads, and who gets left
+        out.
+      </p>
+    </div>
   </header>
 
   <!-- ===================== ABOUT ===================== -->
   <section id="about">
     <h2>About</h2>
-    <p class="lede">
-      I am a computational social scientist working at the intersection of
-      <strong>large-scale social media data</strong> and <strong>large language models</strong>.
-    </p>
-    <p>
-      I combine behavioral data from X (Twitter) and Bluesky with bibliometric, citation, and
-      altmetric databases to study how knowledge is produced, how it spreads, and who gets left
-      out. My current work is centred on the empirical evaluation of LLMs in social research:
-      comparing LLM and human reference selection, measuring gender bias in LLM-driven
-      knowledge production, and mapping the limits of LLMs for name-based inference.
-    </p>
-    <p>
-      I am part of the Computational Inequalities Research Group, funded by the European Union
-      under the Horizon EU project <em>LearnData</em> (101086712) and led by Orsolya V&aacute;s&aacute;rhelyi.
-      Before Budapest I completed my PhD in Science of Science and Management of Science and
-      Technology at Dalian University of Technology, held a RESPECT research fellowship at the
-      Georgia Institute of Technology, and spent two years as a visiting PhD researcher at the
-      University of Copenhagen supported by the China Scholarship Council.
-    </p>
+    <div class="with-aside">
+      <div class="col">
+        <p class="prose">
+          My current work is centred on the empirical evaluation of LLMs in social research:
+          comparing LLM and human reference selection, measuring gender bias in LLM-driven
+          knowledge production, and mapping the limits of LLMs for name-based inference.
+        </p>
+        <p class="prose">
+          I am part of the Computational Inequalities Research Group, funded by the European Union
+          under the Horizon EU project <em>LearnData</em> (101086712) and led by Orsolya
+          V&aacute;s&aacute;rhelyi. Before Budapest I completed my PhD in Science of Science and
+          Management of Science and Technology at Dalian University of Technology, held a RESPECT
+          research fellowship at the Georgia Institute of Technology, and spent two years as a
+          visiting PhD researcher at the University of Copenhagen supported by the China
+          Scholarship Council.
+        </p>
+      </div>
+
+      <aside class="aside">
+        <h3>Research interests</h3>
+        <p class="tags">
+          <span class="tag">Science of science</span><span class="tag">LLM evaluation</span><span class="tag">Altmetrics</span><span class="tag">Network science</span><span class="tag">Scientific careers</span><span class="tag">Inequality</span>
+        </p>
+        <h3>Methods</h3>
+        <p class="quiet">Machine learning, network science, text-as-data, statistical modelling.</p>
+        <h3>Tools</h3>
+        <p class="quiet">Python, R, SQL, PyTorch, the Hugging Face ecosystem.</p>
+        <h3>Languages</h3>
+        <p class="quiet">English (fluent), Chinese (native).</p>
+      </aside>
+    </div>
 
     <div class="cards">
       <article class="card">
@@ -113,11 +138,6 @@
         </p>
       </article>
     </div>
-
-    <p class="quiet">
-      <strong>Methods:</strong> machine learning, network science, text-as-data, statistical modelling.
-      <strong>Tools:</strong> Python, R, SQL, PyTorch, the Hugging Face ecosystem.
-    </p>
   </section>
 
   <!-- ===================== NEWS ===================== -->
@@ -143,66 +163,114 @@
     <h3>Manuscripts in preparation</h3>
     <ol class="pubs">
       <li>
-        <span class="tags"><span class="tag">LLM evaluation</span><span class="tag">Citation behaviour</span></span>
-        <span class="title">Even verified LLM-selected papers narrow scientific referencing toward already recognized work.</span>
-        <span class="authors"><strong>Wang, Y.</strong>, V&aacute;s&aacute;rhelyi, O., et al.</span>
-        <span class="venue">In preparation. Nine LLMs, 800,000+ AI-generated literature reviews, and 146,001 validated cited articles compared against matched human-cited articles.</span>
+        <div class="pub-rail">
+          <span class="pub-year">In prep.</span>
+          <span class="pub-venue-short">Nine LLMs</span>
+        </div>
+        <div class="pub-body">
+          <span class="tags"><span class="tag">LLM evaluation</span><span class="tag">Citation behaviour</span></span>
+          <span class="title">Even verified LLM-selected papers narrow scientific referencing toward already recognized work.</span>
+          <span class="authors"><strong>Wang, Y.</strong>, V&aacute;s&aacute;rhelyi, O., et al.</span>
+          <span class="venue">In preparation. Nine LLMs, 800,000+ AI-generated literature reviews, and 146,001 validated cited articles compared against matched human-cited articles.</span>
+        </div>
       </li>
       <li>
-        <span class="tags"><span class="tag">LLM evaluation</span><span class="tag">Inequality</span></span>
-        <span class="title">Prestige and social bias in human- versus AI-generated literature reviews.</span>
-        <span class="authors"><strong>Wang, Y.</strong>, Hidalgo, C., et al.</span>
-        <span class="venue">In preparation. Synthetic reviews generated for 100,000 papers.</span>
+        <div class="pub-rail">
+          <span class="pub-year">In prep.</span>
+          <span class="pub-venue-short">100k reviews</span>
+        </div>
+        <div class="pub-body">
+          <span class="tags"><span class="tag">LLM evaluation</span><span class="tag">Inequality</span></span>
+          <span class="title">Prestige and social bias in human- versus AI-generated literature reviews.</span>
+          <span class="authors"><strong>Wang, Y.</strong>, Hidalgo, C., et al.</span>
+          <span class="venue">In preparation. Synthetic reviews generated for 100,000 papers.</span>
+        </div>
       </li>
       <li>
-        <span class="tags"><span class="tag">Science of science</span><span class="tag">Careers</span></span>
-        <span class="title">How authors' research trajectories change before and after their first disruptive paper.</span>
-        <span class="authors"><strong>Wang, Y.</strong>, &amp; Wachs, J.</span>
-        <span class="venue">In preparation. Exploration versus exploitation in scientific careers.</span>
+        <div class="pub-rail">
+          <span class="pub-year">In prep.</span>
+          <span class="pub-venue-short">Careers</span>
+        </div>
+        <div class="pub-body">
+          <span class="tags"><span class="tag">Science of science</span><span class="tag">Careers</span></span>
+          <span class="title">How authors' research trajectories change before and after their first disruptive paper.</span>
+          <span class="authors"><strong>Wang, Y.</strong>, &amp; Wachs, J.</span>
+          <span class="venue">In preparation. Exploration versus exploitation in scientific careers.</span>
+        </div>
       </li>
     </ol>
 
     <h3>Journal articles</h3>
     <ol class="pubs">
       <li>
-        <span class="tags"><span class="tag">Altmetrics</span><span class="tag">Scholarly books</span></span>
-        <span class="title">&lsquo;To tweet or not to tweet?&rsquo; A study of the use of Twitter by scholarly book publishers in Social Sciences and Humanities.</span>
-        <span class="authors"><strong>Wang, Y.</strong>, Zuccala, A., Hou, H., &amp; Hu, Z. (2021).</span>
-        <span class="venue"><em>Journal of Informetrics</em>, 15(3), 101170.</span>
-        <span class="meta"><a class="badge badge-doi" href="https://doi.org/10.1016/j.joi.2021.101170">DOI</a></span>
+        <div class="pub-rail">
+          <span class="pub-year">2021</span>
+          <span class="pub-venue-short">J. Informetrics</span>
+        </div>
+        <div class="pub-body">
+          <span class="tags"><span class="tag">Altmetrics</span><span class="tag">Scholarly books</span></span>
+          <span class="title">&lsquo;To tweet or not to tweet?&rsquo; A study of the use of Twitter by scholarly book publishers in Social Sciences and Humanities.</span>
+          <span class="authors"><strong>Wang, Y.</strong>, Zuccala, A., Hou, H., &amp; Hu, Z. (2021).</span>
+          <span class="venue"><em>Journal of Informetrics</em>, 15(3), 101170.</span>
+          <span class="meta"><a class="badge badge-doi" href="https://doi.org/10.1016/j.joi.2021.101170">DOI</a></span>
+        </div>
       </li>
       <li>
-        <span class="tags"><span class="tag">Altmetrics</span><span class="tag">Scholarly communication</span></span>
-        <span class="title">Scholarly book publishers as publicity agents for SSH titles on Twitter.</span>
-        <span class="authors"><strong>Wang, Y.</strong>, &amp; Zuccala, A. (2021).</span>
-        <span class="venue"><em>Scientometrics</em>, 126, 4817&ndash;4840.</span>
-        <span class="meta"><a class="badge badge-doi" href="https://doi.org/10.1007/s11192-021-03947-6">DOI</a></span>
+        <div class="pub-rail">
+          <span class="pub-year">2021</span>
+          <span class="pub-venue-short">Scientometrics</span>
+        </div>
+        <div class="pub-body">
+          <span class="tags"><span class="tag">Altmetrics</span><span class="tag">Scholarly communication</span></span>
+          <span class="title">Scholarly book publishers as publicity agents for SSH titles on Twitter.</span>
+          <span class="authors"><strong>Wang, Y.</strong>, &amp; Zuccala, A. (2021).</span>
+          <span class="venue"><em>Scientometrics</em>, 126, 4817&ndash;4840.</span>
+          <span class="meta"><a class="badge badge-doi" href="https://doi.org/10.1007/s11192-021-03947-6">DOI</a></span>
+        </div>
       </li>
     </ol>
 
     <h3>Peer-reviewed conference proceedings</h3>
     <ol class="pubs">
       <li>
-        <span class="tags"><span class="tag">LLM evaluation</span><span class="tag">Algorithmic fairness</span></span>
-        <span class="title">Evaluating gender bias in large language models in academic knowledge production.</span>
-        <span class="authors">Herman, J., Kovacs, K. D., <strong>Wang, Y.</strong>, &amp; V&aacute;s&aacute;rhelyi, O. (2025).</span>
-        <span class="venue"><em>Proceedings of the Fourth European Workshop on Algorithmic Fairness (EWAF)</em>, PMLR 294:417&ndash;422.</span>
-        <span class="meta">
-          <a class="badge badge-proc" href="https://proceedings.mlr.press/v294/herman25a.html">Proceedings</a>
-          <a class="badge badge-pdf" href="https://raw.githubusercontent.com/mlresearch/v294/main/assets/herman25a/herman25a.pdf">PDF</a>
-        </span>
+        <div class="pub-rail">
+          <span class="pub-year">2025</span>
+          <span class="pub-venue-short">EWAF</span>
+        </div>
+        <div class="pub-body">
+          <span class="tags"><span class="tag">LLM evaluation</span><span class="tag">Algorithmic fairness</span></span>
+          <span class="title">Evaluating gender bias in large language models in academic knowledge production.</span>
+          <span class="authors">Herman, J., Kovacs, K. D., <strong>Wang, Y.</strong>, &amp; V&aacute;s&aacute;rhelyi, O. (2025).</span>
+          <span class="venue"><em>Proceedings of the Fourth European Workshop on Algorithmic Fairness (EWAF)</em>, PMLR 294:417&ndash;422.</span>
+          <span class="meta">
+            <a class="badge badge-proc" href="https://proceedings.mlr.press/v294/herman25a.html">Proceedings</a>
+            <a class="badge badge-pdf" href="https://raw.githubusercontent.com/mlresearch/v294/main/assets/herman25a/herman25a.pdf">PDF</a>
+          </span>
+        </div>
       </li>
       <li>
-        <span class="tags"><span class="tag">Altmetrics</span><span class="tag">Networks</span></span>
-        <span class="title">Book authors as self-promoters on X (Twitter) and their information dissemination networks.</span>
-        <span class="authors"><strong>Wang, Y.</strong>, Hou, H., &amp; Zuccala, A. (2025).</span>
-        <span class="venue"><em>Proceedings of ISSI 2025</em>, 2035&ndash;2042.</span>
+        <div class="pub-rail">
+          <span class="pub-year">2025</span>
+          <span class="pub-venue-short">ISSI</span>
+        </div>
+        <div class="pub-body">
+          <span class="tags"><span class="tag">Altmetrics</span><span class="tag">Networks</span></span>
+          <span class="title">Book authors as self-promoters on X (Twitter) and their information dissemination networks.</span>
+          <span class="authors"><strong>Wang, Y.</strong>, Hou, H., &amp; Zuccala, A. (2025).</span>
+          <span class="venue"><em>Proceedings of ISSI 2025</em>, 2035&ndash;2042.</span>
+        </div>
       </li>
       <li>
-        <span class="tags"><span class="tag">Mobility</span><span class="tag">Careers</span></span>
-        <span class="title">National mobility and career performance of the scientific workforce in Colombia.</span>
-        <span class="authors">Godoy, J. M., <strong>Wang, Y.</strong>, &amp; Cort&eacute;s, J. D. (2025).</span>
-        <span class="venue"><em>Proceedings of ISSI 2025</em>, 2251&ndash;2258.</span>
+        <div class="pub-rail">
+          <span class="pub-year">2025</span>
+          <span class="pub-venue-short">ISSI</span>
+        </div>
+        <div class="pub-body">
+          <span class="tags"><span class="tag">Mobility</span><span class="tag">Careers</span></span>
+          <span class="title">National mobility and career performance of the scientific workforce in Colombia.</span>
+          <span class="authors">Godoy, J. M., <strong>Wang, Y.</strong>, &amp; Cort&eacute;s, J. D. (2025).</span>
+          <span class="venue"><em>Proceedings of ISSI 2025</em>, 2251&ndash;2258.</span>
+        </div>
       </li>
     </ol>
   </section>
@@ -279,18 +347,24 @@
   <!-- ===================== TEACHING ===================== -->
   <section id="teaching">
     <h2>Teaching &amp; Mentoring</h2>
-    <h3>Student supervision</h3>
-    <p>
-      <strong>Akbota Saduakassova</strong>, PhD student, Corvinus University of Budapest &mdash;
-      <em>Global academic inequality and mobility: mapping migration patterns of scholars, with
-      insights from Kazakhstan.</em>
-    </p>
-    <h3>Teaching assistant</h3>
-    <p>
-      <em>Scientific Research Writing</em> (graduate course), Dalian University of Technology,
-      2016&ndash;2018. Supported writing assignments, peer-review exercises, and individual
-      feedback for early-stage researchers.
-    </p>
+    <div class="two-col">
+      <div class="col">
+        <h3>Student supervision</h3>
+        <p class="quiet">
+          <strong>Akbota Saduakassova</strong>, PhD student, Corvinus University of Budapest &mdash;
+          <em>Global academic inequality and mobility: mapping migration patterns of scholars, with
+          insights from Kazakhstan.</em>
+        </p>
+      </div>
+      <div class="col">
+        <h3>Teaching assistant</h3>
+        <p class="quiet">
+          <em>Scientific Research Writing</em> (graduate course), Dalian University of Technology,
+          2016&ndash;2018. Supported writing assignments, peer-review exercises, and individual
+          feedback for early-stage researchers.
+        </p>
+      </div>
+    </div>
   </section>
 
   <!-- ===================== SERVICE & DATA ===================== -->
